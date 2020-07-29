@@ -10,7 +10,7 @@ function makeArray(event) {
   horiz = row.value;
   verti = col.value;
   numMine = mine.value;
-  randomMine(horiz, verti);
+  randomNumberForDigging(horiz, verti, numMine);
   for (i = 0; i < horiz; i++) {
     var arr = [];
     arr.push;
@@ -25,13 +25,30 @@ function makeArray(event) {
   }
 }
 
-var mineList = [];
-function randomMine(horiz, verti) {
-  var numList = Array(horiz * verti);
+var listForDigging = [];
+function randomNumberForDigging(horiz, verti, numMine) {
+  var startNum = 0; //for fill the numList
+  var numList = Array(horiz * verti) //which will be used for picking up the number
+    .fill()
+    .map(function () {
+      startNum += 1;
+      return startNum;
+    });
   for (i = 0; i < numMine; i++) {
-    mineList.push(Math.floor(Math.random() * num));
+    listForDigging.push(
+      numList.splice(Math.floor(Math.random() * numList.length - 1), 1)[0]
+    );
   }
-  console.log(mineList);
+  diggingMine(horiz, verti);
+  console.log(tbody.children[2]);
 }
 
+function diggingMine(horiz, verti) {
+  for (i = 0; i < listForDigging.length; i++) {
+    var mineRow = Math.floor(listForDigging[i] / horiz);
+    var mineCol = (listForDigging[i] % verti) - 1;
+    console.log(mineRow, mineCol);
+  }
+  console.log(tbody.children[2]); //tbody.children[mineRow].children[mineCol].innerHTML = "X";
+}
 btn.addEventListener("click", makeArray);
