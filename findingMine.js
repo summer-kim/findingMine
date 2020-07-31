@@ -4,12 +4,16 @@ const mine = document.getElementById("mine");
 const btn = document.getElementById("excute");
 
 var dataset = [];
-var tbody = document.querySelector("tbody");
+var tbody = document.getElementById("tableTbody");
 var listForDigging = []; // position of Mine
+var btnTbody = document.getElementById("btnTbody");
 
 function makeArray(event) {
+  tbody.style.display = "block";
+  btnTbody.style.display = "block";
   tbody.innerHTML = "";
   listForDigging = [];
+  dataset = [];
   verti = row.value;
   horiz = col.value;
   numMine = mine.value;
@@ -58,6 +62,7 @@ function diggingMine(horiz, verti) {
     tbody.children[mineRow].children[mineCol].innerHTML = "X";
     dataset[mineRow][mineCol] = "X";
   }
+  console.log(dataset);
   tbody.addEventListener("contextmenu", IGuessMineIsHere);
   tbody.addEventListener("click", checkMine);
 }
@@ -104,7 +109,7 @@ function checkMine(e) {
       dataset[whichRow + 1][whichCol + 1]
     );
   }
-  if (e.target.textContent === "X") {
+  if (e.target.textContent === "X" || e.target.textContent === "퐝") {
     e.target.textContent = "퐝";
   } else {
     e.target.textContent = ArrAround.filter(function (x) {
@@ -114,12 +119,4 @@ function checkMine(e) {
 }
 
 btn.addEventListener("click", makeArray);
-
-var name = "carrot";
-function log() {
-  console.log(name);
-}
-function rename() {
-  var name = "onion";
-  log();
-}
+btnTbody.addEventListener("click", makeArray);
