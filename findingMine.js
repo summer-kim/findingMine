@@ -4,9 +4,12 @@ const mine = document.getElementById("mine");
 const btn = document.getElementById("excute");
 
 var dataset = [];
-var tbody = document.getElementById("tableTbody");
+const tbody = document.getElementById("tableTbody");
+var tr = [];
 var listForDigging = []; // position of Mine
 var btnTbody = document.getElementById("btnTbody");
+
+var stopExecution = false;
 
 function makeArray(event) {
   tbody.style.display = "block";
@@ -25,10 +28,11 @@ function makeArray(event) {
     for (j = 0; j < horiz; j++) {
       const td = document.createElement("td");
       tr.appendChild(td);
-      arr.push(1);
+      arr.push(0);
     }
     tbody.appendChild(tr);
   }
+  tr = Array.from(document.getElementsByTagName("tr"));
   randomNumberForDigging(horiz, verti, numMine);
 }
 
@@ -62,7 +66,6 @@ function diggingMine(horiz, verti) {
     tbody.children[mineRow].children[mineCol].innerHTML = "X";
     dataset[mineRow][mineCol] = "X";
   }
-  console.log(dataset);
   tbody.addEventListener("contextmenu", IGuessMineIsHere);
   tbody.addEventListener("click", checkMine);
 }
@@ -87,34 +90,67 @@ function IGuessMineIsHere(e) {
 }
 function checkMine(e) {
   e.preventDefault();
+  if (stopExecution) {
+    return;
+  }
   var parentNode = e.target.parentNode;
   var whichRow = Array.prototype.indexOf.call(tbody.children, parentNode);
   var whichCol = Array.prototype.indexOf.call(parentNode.children, e.target);
 
   ArrAround = [
-    dataset[whichRow][whichCol - 1],
-    dataset[whichRow][whichCol + 1],
+    tbody.children[whichRow].children[whichCol - 1],
+    tbody.children[whichRow].children[whichCol + 1],
   ];
-  if (dataset[whichRow - 1]) {
+  if (tbody.children[whichRow - 1]) {
     ArrAround = ArrAround.concat(
-      dataset[whichRow - 1][whichCol - 1],
-      dataset[whichRow - 1][whichCol],
-      dataset[whichRow - 1][whichCol + 1]
+      tbody.children[whichRow - 1].children[whichCol - 1],
+      tbody.children[whichRow - 1].children[whichCol],
+      tbody.children[whichRow - 1].children[whichCol + 1]
     );
   }
-  if (dataset[whichRow + 1]) {
+  if (tbody.children[whichRow + 1]) {
     ArrAround = ArrAround.concat(
-      dataset[whichRow + 1][whichCol - 1],
-      dataset[whichRow + 1][whichCol],
-      dataset[whichRow + 1][whichCol + 1]
+      tbody.children[whichRow + 1].children[whichCol - 1],
+      tbody.children[whichRow + 1].children[whichCol],
+      tbody.children[whichRow + 1].children[whichCol + 1]
     );
   }
+  var mineNumAround = 0;
   if (e.target.textContent === "X" || e.target.textContent === "퐝") {
+    e.target.style.backgroundColor = "teal";
     e.target.textContent = "퐝";
+    stopExecution = true;
+    tr.forEach(function (x) {
+      x.className = "stop";
+    });
+    setTimeout(function () {
+      tbody.textContent = "You Lose";
+      tbody.className = "fontSize";
+    }, 2000);
   } else {
-    e.target.textContent = ArrAround.filter(function (x) {
-      return x === "X";
+    mineNumAround = ArrAround.filter(function (x) {
+      return !!x;
+    }).filter(function (x) {
+      return x.textContent === "X";
     }).length;
+    if (mineNumAround !== 0) {
+      e.target.textContent = mineNumAround;
+    }
+    e.target.style.backgroundColor = "teal";
+    dataset[whichRow][whichCol] = 1;
+    console.log(1);
+  }
+  if (mineNumAround === 0 && e.target.textContent !== "퐝") {
+    ArrAround.filter(function (x) {
+      return !!x;
+    }).forEach(function (around) {
+      var parentNode = around.parentNode;
+      var whichRow = Array.prototype.indexOf.call(tbody.children, parentNode);
+      var whichCol = Array.prototype.indexOf.call(parentNode.children, around);
+      if (dataset[whichRow][whichCol] === 0) {
+        return around.click();
+      }
+    });
   }
 }
 

@@ -25,11 +25,14 @@ tr {
   color: white;
 }
 #tableTbody {
+  min-width: 282px;
+  min-height: 282px;
   display: none;
   padding: 20px;
   background-color: rgb(255, 107, 156);
   border-radius: 7%;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 #btnTbody {
   display: none;
@@ -41,4 +44,12 @@ tr {
   width: 50px;
   border-radius: 10%;
   background-color: rgb(255, 107, 156);
+}
+.stop {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+.fontSize {
+  font-size: 50px;
+  color: white;
 }
