@@ -4,7 +4,6 @@ body {
   height: 100%;
 }
 table {
-  height: 400px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -30,7 +29,7 @@ tr {
   display: none;
   padding: 20px;
   background-color: rgb(255, 107, 156);
-  border-radius: 7%;
+  border-radius: 2.5%;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
@@ -50,6 +49,20 @@ tr {
   transition: opacity 2s ease-in-out;
 }
 .fontSize {
+  font-weight: 600;
   font-size: 50px;
   color: white;
+  line-height: 282px;
+  animation: moving 1.5s infinite ease-in-out;
+}
+@keyframes moving {
+  0% {
+    font-size: 50px;
+  }
+  50% {
+    font-size: 55px;
+  }
+  100% {
+    font-size: 50px;
+  }
 }

@@ -7,12 +7,19 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <form class="makeMine">
-      <input type="number" id="row" placeholder="Row" value="10" />
-      <input type="number" id="column" placeholder="Column" value="10" />
-      <input type="number" id="mine" placeholder="Numbers of Mine" value="20" />
-    </form>
-    <button id="excute">Click</button>
+    <div class="stage">
+      <span> 10x10 </span>
+      <button class="stageBtn" id="first">Go!</button>
+    </div>
+    <div class="stage">
+      <span> 20x10 </span>
+      <button class="stageBtn" id="second">Go!</button>
+    </div>
+    <div class="stage">
+      <span> 30x15 </span>
+      <button class="stageBtn" id="third">Go!</button>
+    </div>
+
     <table>
       <tbody id="tableTbody"></tbody>
       <tbody id="btnTbody">
