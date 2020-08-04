@@ -14,6 +14,7 @@ var verti, horiz, numMine;
 first.addEventListener("click", makeArray);
 second.addEventListener("click", makeArray);
 third.addEventListener("click", makeArray);
+btnTbody.addEventListener("click", makeArray);
 
 function makeArray(event) {
   if (event.target.id === "first") {
@@ -24,7 +25,7 @@ function makeArray(event) {
     verti = 10;
     horiz = 20;
     numMine = 10;
-  } else {
+  } else if (event.target.id === "third") {
     verti = 15;
     horiz = 30;
     numMine = 10;
